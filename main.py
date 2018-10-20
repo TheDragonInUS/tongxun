@@ -1,5 +1,5 @@
 """
-主程序
+主程序函数
 
 """
 import socket
@@ -14,7 +14,7 @@ def borad_(udp):
 
 def send_mas(udp, ip_port):
     while True:
-        massage = input("请输入您要的信息：")
+        massage = input("\n请输入您要的信息：\n")
         udp.sendto(massage.encode(), ip_port)
 
 
@@ -22,9 +22,9 @@ def reci_mas(udp):
     while True:
         massage = udp.recvfrom(2048)
         if massage[1][0] == "192.168.43.43":
-            print("广播发送成功")
+            print("\n广播发送成功\n")
         else:
-            print(massage[0].decode())
+            print("接收发的消息是", massage[0].decode())
 
 
 def run():
