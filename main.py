@@ -7,7 +7,8 @@ import socket
 
 def borad_(udp):
     udp.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-    udp.sendto('Client broadcast message!\n'.encode('utf-8'), ('<broadcast>', 1314))
+    udp.sendto('Client broadcast message!\n'.encode(
+        'utf-8'), ('<broadcast>', 1314))
 
 
 def send_mas(udp, massage, ip_port):
