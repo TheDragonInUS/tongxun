@@ -21,9 +21,15 @@ def run():
     while True:
 
         print("ok")
-        send_mas(udp=udp, massage="this is python", ip_port=("192.168.43.233", 1314))
+        send_mas(
+            udp=udp,
+            massage="this is python",
+            ip_port=(
+                "192.168.43.233",
+                1314))
         reci_mas(udp=udp)
         import time
         time.sleep(1)
+
 
 run()
