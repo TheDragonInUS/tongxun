@@ -2,6 +2,12 @@
 主程序
 
 """
+import socket
+
+
+def borad_(udp):
+    udp.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    udp.sendto('Client broadcast message!\n'.encode('utf-8'), ('<broadcast>', 1314))
 
 
 def send_mas(udp, massage, ip_port):
@@ -10,13 +16,17 @@ def send_mas(udp, massage, ip_port):
 
 def reci_mas(udp):
     massage = udp.recvfrom(2048)
+    if massage[1][0] == "192.168.43.43":
+        print("广播发送成功")
+        return
     print(massage)
 
 
 def run():
-    import socket
+
     udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp.bind(("", 1314))
+    borad_(udp=udp)
 
     while True:
 
