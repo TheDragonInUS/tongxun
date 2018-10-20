@@ -3,6 +3,7 @@
 
 """
 import socket
+import threading
 
 
 def borad_(udp):
@@ -11,16 +12,19 @@ def borad_(udp):
         'utf-8'), ('<broadcast>', 1314))
 
 
-def send_mas(udp, massage, ip_port):
-    udp.sendto(massage.encode(), ip_port)
+def send_mas(udp, ip_port):
+    while True:
+        massage = input("请输入您要的信息：")
+        udp.sendto(massage.encode(), ip_port)
 
 
 def reci_mas(udp):
-    massage = udp.recvfrom(2048)
-    if massage[1][0] == "192.168.43.43":
-        print("广播发送成功")
-        return
-    print(massage)
+    while True:
+        massage = udp.recvfrom(2048)
+        if massage[1][0] == "192.168.43.43":
+            print("广播发送成功")
+        else:
+            print(massage[0].decode())
 
 
 def run():
@@ -29,18 +33,13 @@ def run():
     udp.bind(("", 1314))
     borad_(udp=udp)
 
-    while True:
+    send_mas_1 = threading.Thread(target=send_mas, kwargs={"udp": udp, "ip_port": ("192.168.43.233", 1314)})
+    reci_mas_2 = threading.Thread(target=reci_mas, kwargs={"udp": udp})
 
-        print("ok")
-        send_mas(
-            udp=udp,
-            massage="this is python",
-            ip_port=(
-                "192.168.43.233",
-                1314))
-        reci_mas(udp=udp)
-        import time
-        time.sleep(1)
+    send_mas_1.start()
+    reci_mas_2.start()
 
 
 run()
+
+
