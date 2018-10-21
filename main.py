@@ -31,10 +31,17 @@ class UdpChat(object):
         :param ip_port:
         :return:
         """
+
         while True:
             massage = input("\n请输入您要的信息：\n")
             if massage == "myself:exit":
                 self.broadcast('BYE EVERYONE !\r\n')
+
+                import os
+                print(os.getpid())
+                os.kill(os.getpid(), 9)
+
+            massage = massage + "\r\n"
             self.udp.sendto(massage.encode(), ip_port)
 
     def pan_usr(self, ip):
@@ -54,6 +61,7 @@ class UdpChat(object):
         接收信息并提取
         :return:
         """
+
         while True:
             massage = self.udp.recvfrom(2048)
             if massage[1][0] == "192.168.43.43":
@@ -76,5 +84,7 @@ class UdpChat(object):
         receive_mas_2.start()
 
 
-a = UdpChat()
-a.run()
+if __name__ == '__main__':
+
+    a = UdpChat()
+    a.run()
